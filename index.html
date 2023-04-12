@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sobchak</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <div id="result"></div>
+            <div id="result-button">Click</div>
+    </div>
+   
+</div>
+    <div class="questionnaire">
+        <h2 class="questionnaire-title">Вопросник</h2>
+        <form class="question-form">
+          <div class="question">
+            <h3 class="question-title" id="questionTitel"></h3>
+            <ul class="options-list" id="optionList">
+              <li class="option">
+                <input type="radio" name="question1" id="option1" value="option1">
+                <label for="option1"></label>
+              </li>
+            </ul>
+          </div>
+          <!-- Другие вопросы -->
+          <!-- <button type="submit" class="submit-btn" id="submitBtn"></button> -->
+          <!-- <input type="submit" value="Отправить" class="submit-btn" id="submitBtn"> -->
+          <!-- <input type="submit" value="Дальше" class="submit-btn" id="nextBtn"> -->
+          <div id="err" class="err">Заполните все ответы</div>
+        </form>
+      </div>
+    <!-- <div class="question">
+        <div class="qusetion__container">
+            <div id="question"></div>
+            <div id="options"></div>
+            </div>
+            
+    </div> -->
+    <script src="script.js"></script>
+</body>
+</html>

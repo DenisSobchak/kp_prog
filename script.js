@@ -4,42 +4,34 @@ const questions = [
     {question: "Яка властивість форми в Visual Studio відповідає за назву форми?",
     options: ["Text", "Name", "Caption", "Title"],
     correctAnswer: ["Title"],
-    // answered: false,
     },
     {question: "Яка властивість форми в Visual Studio дозволяє встановлювати",
     options: ["Location", "Position", "Top", "Left"],
     correctAnswer: ["Location", "Position"],
-   
     },
     {question: "Яка властивість форми в Visual Studio встановлює ширину форми?",
     options: ["Width", "Height", "Size", "Dimension"],
     correctAnswer: ["Width"],
-    // answered: false,
     },
     {question: "Яка властивість форми в Visual Studio дозволяє встановлювати колір фону форми?",
     options: ["BackColor", "ForeColor", "BackgroundColor", "Color"],
     correctAnswer: ["BackColor"],
-    // answered: false,
     },
     {question: "Яка властивість форми в Visual Studio встановлює заголовок форми, що відображається в панелі заголовка вікна?",
     options: ["Text", "Caption", "Title", "Header"],
     correctAnswer: ["Text"],
-    // answered: false,
     },
     {question: "Яка властивість форми в Visual Studio дозволяє встановлювати режим видимості форми?",
     options: ["Visible", "Display", "Show", "Hide"],
     correctAnswer: ["Visible"],
-    // answered: false,
     },
     {question: `Яка властивість форми в Visual Studio встановлює режим закриття форми при натисканні на кнопку "Х" в правому верхньому кутку вікна?`,
     options: ["ControlBox", "CloseBox", "ExitButton", "CloseButton"],
     correctAnswer: ["ControlBox"],
-    // answered: false,
     },
     {question: "Яка властивість форми в Visual Studio дозволяє встановлювати іконку форми, що відображається в панелі заголовка вікна?",
     options: ["Icon", "TitleIcon", "FormIcon", "WindowIcon"],
     correctAnswer: ["Icon"],
-    // answered: false,
     }
 ]
 let indexQuestion = 0;
@@ -53,6 +45,8 @@ for (let i = 0; i < questions.length; i++) {
 function displayQuestion (indexQuestion)  {
     const questionElement = document.getElementById("questionTitel");
     const optionsElement = document.getElementById("optionList");
+    // const blockButton = document.createElement("li");
+    // optionsElement.appendChild(blockButton);
     let selectedAnswer = questions[indexQuestion].answered;
     
     questionElement.textContent = questions[indexQuestion].question;
@@ -61,6 +55,10 @@ function displayQuestion (indexQuestion)  {
         const optionElement = document.createElement("li");
         const checkBoxElement = document.createElement("input");
         const labelElement = document.createElement("label");
+        checkBoxElement.checked = index === selectedAnswer;
+        if (checkBoxElement.checked) {
+            labelElement.classList.add("selected");
+          }
         checkBoxElement.type = questions[indexQuestion].correctAnswer.length > 1 ? "checkbox" : "radio";
         checkBoxElement.addEventListener("change", () => {
             if (questions[indexQuestion].correctAnswer.length > 1) {
@@ -72,14 +70,13 @@ function displayQuestion (indexQuestion)  {
             checkedAnswer(option, index, indexQuestion);
         });
         checkBoxElement.name = `question${indexQuestion}`;  
-        checkBoxElement.id = `option_${index}`; // Изменить эту строку
-        checkBoxElement.checked = index === selectedAnswer; // Добавить эту строку
+        checkBoxElement.id = `option_${index}`;
+        checkBoxElement.checked = index === selectedAnswer;
         labelElement.textContent = option;
+        labelElement.setAttribute("for", `option_${index}`);
         optionsElement.appendChild(optionElement);
         optionElement.appendChild(checkBoxElement);
         optionElement.appendChild(labelElement);
-        // checkBoxElement.addEventListener("change", () => checkedAnswer(option, index, indexQuestion));
-        
     })
     
  
@@ -92,56 +89,43 @@ function nextBtn(optionsElement, indexQuestion) {
     const nextBtn = document.createElement("input");
     nextBtn.value = "Next";
     nextBtn.type = "submit";
-    nextBtn.className = "submit-btn";
+    nextBtn.className = "submit-btn next-btn";
     if (indexQuestion >= questions.length) {
         nextBtn.disabled = true;
     }
-    console.log(questions.length);
     optionsElement.appendChild(nextBtn);
     nextBtn.addEventListener("click", (e) => {
         e.preventDefault();
-        console.log(questions.length)
-        console.log(indexQuestion)
         if (indexQuestion === questions.length - 1) { 
             const submitBtn = document.createElement("input");
             submitBtn.value = "Submit";
             submitBtn.type = "submit";
             nextBtn.style.display = "none"
-            submitBtn.className = "submit-btn";
+            submitBtn.className = "submit-btn sbm";
             optionsElement.appendChild(submitBtn);
             submitBtn.addEventListener("click", (e) => {
                 e.preventDefault();
                 displayResult();
-                console.log("Form submitted");
             });
             if (arraysAreEqual(checkedAnswer(indexQuestion), questions[indexQuestion].correctAnswer)) {
                 score++
                 indexQuestion++;
                 displayQuestion(indexQuestion);
-                console.log(score)
             } else {
-                console.log("no");
                 indexQuestion++;
                 displayQuestion(indexQuestion);
             }
            
         } else {
             const checkedInput = document.querySelector(`input[name="question${indexQuestion}"]:checked`);
-            console.log(Boolean(checkedInput));
-            
             if (checkedInput) {
                 questions[indexQuestion].answered = parseInt(checkedInput.id.split("_")[1]);
             }
-            console.log(checkedAnswer());
-            console.log(questions[indexQuestion].correctAnswer);
-
             if (arraysAreEqual(checkedAnswer(indexQuestion), questions[indexQuestion].correctAnswer)) {
                 score++
                 indexQuestion++;
                 displayQuestion(indexQuestion);
-                console.log(score)
             } else {
-                console.log("no");
                 indexQuestion++;
                 displayQuestion(indexQuestion);
             }
@@ -153,7 +137,7 @@ function backBtn (optionsElement, indexQuestion)  {
     const backBtn = document.createElement("input");
     backBtn.type = "submit";
     backBtn.value = "Back";
-    backBtn.className = "submit-btn";
+    backBtn.className = "submit-btn back-btn";
     if (indexQuestion <= 0) {
         backBtn.disabled = true; 
     }
@@ -169,33 +153,21 @@ function backBtn (optionsElement, indexQuestion)  {
 function checkedAnswer(indexQuestion) {
     const userAnwer = [];
     const checkedInput = document.querySelector(`input[name="question${indexQuestion}"]:checked`);
-    // const selectedCheckboxes = [];
     const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
     const isCheckboxes = document.querySelectorAll('input[type="checkbox"]');
-    const radios = document.querySelectorAll('input[type="radio"]:checked');
-    // console.log(checkedInput);
     if (checkedInput) {
         if (isCheckboxes.length === 0 && document.querySelectorAll('input[type="radio"]').length > 0) {
             const checkedOption = checkedInput.nextElementSibling.textContent;
             userAnwer.push(checkedOption);
-            // debugger
         }
         if (isCheckboxes.length > 0 && document.querySelectorAll('input[type="radio"]').length === 0) {
             checkboxes.forEach(checkbox => {
                 userAnwer.push(checkbox.nextElementSibling.textContent);
-                // debugger
             })
         }
-        
-      
-        // const checkedOption = checkedInput.nextElementSibling.textContent;
-        // userAnwer.push(checkedOption);
-        
-        console.log("Yoohoo")
     } else {
         backBtn.disabled = false;
         nextBtn.disabled = false;
-        console.log("Ни один вариант ответа не выбран");
     }
     return userAnwer;
 }
@@ -203,14 +175,15 @@ function checkedAnswer(indexQuestion) {
 function displayResult() {
     const elementResult = document.getElementById("result");
     const scoreInterest = (score / questions.length) * 100;
-    debugger
 
     elementResult.textContent = `Ваш резулятат: ${scoreInterest}%`
-    modal.style.display = 'block';
+    modal.style.display = "flex";
+    modal.style.opacity = "1";
     const elementButtonResult = document.getElementById("result-button");
     elementButtonResult.addEventListener("click", () => {
         location.reload(); 
         modal.style.display = 'none';
+        modal.style.opacity = "0";
         displayQuestion(0);
     });
     

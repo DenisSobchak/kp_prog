@@ -110,8 +110,6 @@ body {
   font-family: Arial, sans-serif;
   font-size: 16px;
   line-height: 1.5;
-  /* color: #333; */
-  /* background-color: #fff; */
 }
 
 .questionnaire {
@@ -124,7 +122,6 @@ body {
   text-align: center;
   font-size: 24px;
   padding-top: 15px;
-  /* color: #fff; */
 }
 
 .question-form {
@@ -138,14 +135,12 @@ body {
   
 .question-title {
   font-size: 18px;
-  /* color: #fff; */
   padding: 15px;
 }
   
 .options-list {
   list-style: none;
   padding: 0;
-  /* background: grey; */
 }
   
 .options-list li {
@@ -156,8 +151,6 @@ body {
 label {
   cursor: pointer;
   padding: 10px 20px;
-  /* border: 1px solid #ccc;
-  border-radius: 5px; */
 }
   
 .submit-btn {
@@ -171,7 +164,6 @@ label {
     border: none;
     cursor: pointer;
     margin: 0 auto;
-    /* margin-left: 20px; */
   }
   
 .submit-btn:hover {
